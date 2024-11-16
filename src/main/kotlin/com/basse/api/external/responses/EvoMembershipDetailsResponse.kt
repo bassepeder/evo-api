@@ -9,12 +9,36 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class EvoMembershipDetailsResponse(
-    @SerialName("id") val userId: String,
+    @SerialName("id") val membershipId: String,
     @SerialName("membership_number") val membershipNumber: Long,
     @SerialName("profile") val profile: EvoProfileDetails,
     @SerialName("status") val status: String,
     @SerialName("keys") val keys: List<EvoMembershipKey>,
     @SerialName("product") val productDetails: EvoProductDetails,
+    @SerialName("referral_code") val referralCode: String,
+    @SerialName("location") val locationDetails: EvoLocationDetails,
+    @SerialName("gdpr_opt_in") val gdprOptIn: Boolean,
+    @SerialName("created_at") val membershipCreatedAt: String,
+    @SerialName("begin_date") val membershipBeganAt: String,
+    @SerialName("end_date") val membershipEndsAt: String?,
+    @SerialName("activates_on") val membershipActivatesOn: String?,
+    @SerialName("freeze_periods") val freezePeriods: List<EvoMembershipFreeze>?,
+    @SerialName("current_payment_method") val currentPaymentMethod: EvoCurrentPaymentMethod,
+)
+
+@Serializable
+data class EvoCurrentPaymentMethod(
+    @SerialName("id") val id: String,
+    @SerialName("brand") val brand: String,
+    @SerialName("details") val details: String,
+)
+
+@Serializable
+data class EvoMembershipFreeze(
+    @SerialName("id") val id: String,
+    @SerialName("begin_date") val beginDate: String,
+    @SerialName("end_date") val endDate: String,
+    @SerialName("cancel_date") val cancelDate: String,
 )
 
 @Serializable
@@ -24,7 +48,7 @@ data class EvoProfileDetails(
     @SerialName("last_name") val lastName: String,
     @SerialName("email") val email: String,
     @SerialName("address") val address: EvoProfileAddress,
-    @SerialName("mobile") val mobile: EvoMobileDetails
+    @SerialName("mobile") val mobile: EvoMobileDetails,
 ) {
     fun toProfileDetails(): ProfileDetails {
         return ProfileDetails(
@@ -48,13 +72,13 @@ data class EvoProfileDetails(
     data class EvoProfileAddress(
         @SerialName("street") val street: String,
         @SerialName("postal_code") val postalCode: String,
-        @SerialName("postal_location") val postalLocation: String
+        @SerialName("postal_location") val postalLocation: String,
     )
 
     @Serializable
     data class EvoMobileDetails(
         @SerialName("number") val number: String,
-        @SerialName("prefix") val prefix: String
+        @SerialName("prefix") val prefix: String,
     )
 }
 
@@ -85,4 +109,10 @@ data class EvoMembershipKey(
 data class EvoProductDetails(
     @SerialName("post_signup_presentation") val postSignupPresentation: String,
     @SerialName("require_phone_verification") val requirePhoneVerification: Boolean,
+)
+
+@Serializable
+data class EvoLocationDetails(
+    @SerialName("id") val id: String,
+    @SerialName("name") val name: String,
 )

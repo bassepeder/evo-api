@@ -4,12 +4,41 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MembershipDetailsResponse(
-    val userId: String,
-    val membershipNumber: Long,
-    val membershipStatus: MembershipStatus,
+    val membershipDetails: MembershipDetails,
     val profile: ProfileDetails,
     val keys: List<MembershipKey>,
-    val productDetails: ProductDetails,
+    val product: ProductDetails,
+    val location: LocationDetails,
+    val referralCode: String,
+    val gdprConsentGiven: Boolean,
+    val currentPaymentMethod: CurrentPaymentMethod,
+)
+
+@Serializable
+data class MembershipDetails(
+    val id: String,
+    val number: Long,
+    val status: MembershipStatus,
+    val createdAt: String,
+    val beganAt: String,
+    val endsAt: String?,
+    val activatesOn: String?,
+    val freezes: List<MembershipFreeze>
+)
+
+@Serializable
+data class CurrentPaymentMethod(
+    val id: String,
+    val brand: String,
+    val details: String,
+)
+
+@Serializable
+data class MembershipFreeze(
+    val id: String,
+    val startDate: String,
+    val endDate: String,
+    val cancelledDate: String,
 )
 
 @Serializable
@@ -87,6 +116,12 @@ data class MembershipKey(
         }
     }
 }
+
+@Serializable
+data class LocationDetails(
+    val id: String,
+    val name: String,
+)
 
 @Serializable
 data class ProfileDetails(
