@@ -4,7 +4,9 @@ import com.basse.Constants
 import com.basse.api.external.requests.EvoAuthenticateUserRequest
 import com.basse.api.external.responses.EvoApiErrorResponse
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
+import com.basse.api.external.responses.EvoInvoicesResponse
 import com.basse.api.external.responses.EvoMembershipDetailsResponse
+import com.basse.api.external.responses.EvoNextInvoiceResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -79,5 +81,21 @@ class EvoApiClient  {
         val responseBody = response.body<EvoMembershipDetailsResponse>()
 
         return Result.success(responseBody)
+    }
+
+    suspend fun getInvoices(token: String): List<EvoInvoicesResponse> {
+        val response: HttpResponse = client.get("v1/membership/invoices") {
+            header(HttpHeaders.Authorization, token)
+        }
+
+        return response.body<List<EvoInvoicesResponse>>()
+    }
+
+    suspend fun getNextInvoice(token: String): EvoNextInvoiceResponse {
+        val response: HttpResponse = client.get("v1/membership/invoices/next") {
+            header(HttpHeaders.Authorization, token)
+        }
+
+        return response.body<EvoNextInvoiceResponse>()
     }
 }
