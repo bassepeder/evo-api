@@ -10,6 +10,7 @@ data class MembershipDetailsResponse(
     val product: ProductDetails,
     val location: LocationDetails,
     val referralCode: String,
+    val locale: String,
     val gdprConsentGiven: Boolean,
     val currentPaymentMethod: CurrentPaymentMethod,
 )

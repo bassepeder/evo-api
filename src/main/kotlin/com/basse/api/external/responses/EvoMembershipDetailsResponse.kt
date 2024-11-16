@@ -16,6 +16,7 @@ data class EvoMembershipDetailsResponse(
     @SerialName("keys") val keys: List<EvoMembershipKey>,
     @SerialName("product") val productDetails: EvoProductDetails,
     @SerialName("referral_code") val referralCode: String,
+    @SerialName("locale") val locale: String,
     @SerialName("location") val locationDetails: EvoLocationDetails,
     @SerialName("gdpr_opt_in") val gdprOptIn: Boolean,
     @SerialName("created_at") val membershipCreatedAt: String,
