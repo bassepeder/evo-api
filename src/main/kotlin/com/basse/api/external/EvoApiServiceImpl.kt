@@ -3,11 +3,13 @@ package com.basse.api.external
 import com.basse.Constants
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
 import com.basse.api.responses.CurrentPaymentMethod
+import com.basse.api.responses.Invoice
 import com.basse.api.responses.LocationDetails
 import com.basse.api.responses.MembershipDetails
 import com.basse.api.responses.MembershipDetailsResponse
 import com.basse.api.responses.MembershipFreeze
 import com.basse.api.responses.MembershipStatus
+import com.basse.api.responses.NextInvoice
 import com.basse.api.responses.ProductDetails
 
 class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
@@ -59,6 +61,30 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
                 ))
             },
             onFailure = { exception -> Result.failure(exception) }
+        )
+    }
+
+    override suspend fun getInvoices(token: String): List<Invoice> {
+        var invoices = apiClient.getInvoices(token)
+
+        return invoices.map { invoice -> Invoice(
+            id = invoice.id,
+            invoiceNumber = invoice.invoiceNumber,
+            date = invoice.invoiceDate,
+            amount = invoice.amount,
+            currency = invoice.currency,
+            status = invoice.status,
+            from = invoice.period.from,
+            to = invoice.period.to,
+        ) }
+    }
+
+    override suspend fun getNextInvoice(token: String): NextInvoice {
+        val invoice = apiClient.getNextInvoice(token)
+
+        return NextInvoice(
+            date = invoice.invoiceDate,
+            amount = invoice.amount
         )
     }
 }
