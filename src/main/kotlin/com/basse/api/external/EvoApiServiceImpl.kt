@@ -5,12 +5,14 @@ import com.basse.api.external.responses.EvoAuthenticateUserResponse
 import com.basse.api.responses.CurrentPaymentMethod
 import com.basse.api.responses.Invoice
 import com.basse.api.responses.LocationDetails
+import com.basse.api.responses.MemberWorkouts
 import com.basse.api.responses.MembershipDetails
 import com.basse.api.responses.MembershipDetailsResponse
 import com.basse.api.responses.MembershipFreeze
 import com.basse.api.responses.MembershipStatus
 import com.basse.api.responses.NextInvoice
 import com.basse.api.responses.ProductDetails
+import com.basse.api.responses.WorkoutMonth
 
 class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
 
@@ -84,7 +86,20 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
 
         return NextInvoice(
             date = invoice.invoiceDate,
-            amount = invoice.amount
+            amount = invoice.amount,
+        )
+    }
+
+    override suspend fun getWorkoutsForMember(token: String): MemberWorkouts {
+        val workouts = apiClient.getWorkoutsForMember(token)
+
+        return MemberWorkouts(
+            totalWorkouts = workouts.totalWorkouts,
+            workoutMonths = workouts.workoutMonths.map { month -> WorkoutMonth(
+                totalWorkouts = month.totalWorkouts,
+                year = month.year,
+                month = month.month,
+            )}
         )
     }
 }

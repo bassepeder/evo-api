@@ -5,6 +5,7 @@ import com.basse.api.external.EvoApiServiceImpl
 import com.basse.api.routes.authRoutes
 import com.basse.api.routes.invoiceRoutes
 import com.basse.api.routes.membershipRoutes
+import com.basse.api.routes.workoutRoutes
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.*
@@ -45,5 +46,6 @@ fun Application.module() {
         authRoutes(EvoApiServiceImpl(EvoApiClient()))
         membershipRoutes(EvoApiServiceImpl(EvoApiClient()))
         invoiceRoutes(EvoApiServiceImpl(EvoApiClient()))
+        workoutRoutes(EvoApiServiceImpl(EvoApiClient()))
     }
 }

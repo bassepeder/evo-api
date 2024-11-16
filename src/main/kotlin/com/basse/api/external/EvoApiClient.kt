@@ -4,9 +4,10 @@ import com.basse.Constants
 import com.basse.api.external.requests.EvoAuthenticateUserRequest
 import com.basse.api.external.responses.EvoApiErrorResponse
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
-import com.basse.api.external.responses.EvoInvoicesResponse
+import com.basse.api.external.responses.EvoMemberWorkoutsResponse
+import com.basse.api.external.responses.invoices.EvoInvoicesResponse
 import com.basse.api.external.responses.EvoMembershipDetailsResponse
-import com.basse.api.external.responses.EvoNextInvoiceResponse
+import com.basse.api.external.responses.invoices.EvoNextInvoiceResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -97,5 +98,13 @@ class EvoApiClient  {
         }
 
         return response.body<EvoNextInvoiceResponse>()
+    }
+
+    suspend fun getWorkoutsForMember(token: String): EvoMemberWorkoutsResponse {
+        val response: HttpResponse = client.get("v2/workouts") {
+            header(HttpHeaders.Authorization, token)
+        }
+
+        return response.body<EvoMemberWorkoutsResponse>()
     }
 }

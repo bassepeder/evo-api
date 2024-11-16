@@ -1,4 +1,4 @@
-package com.basse.api.external.responses
+package com.basse.api.external.responses.invoices
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
