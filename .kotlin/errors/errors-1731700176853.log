@@ -1,0 +1,369 @@
+kotlin version: 2.0.21
+error message: org.jetbrains.kotlin.backend.common.CompilationException: Back-end: Please report this problem https://kotl.in/issue
+/Users/basse/dev/evo/api/src/main/kotlin/com/basse/api/external/responses/EvoMembershipDetailsResponse.kt:17:1
+Problem with `@Serializable
+data class EvoProfileDetails {
+  constructor(name: String, firstName: String, lastName: String, email: String, address: EvoProfileAddress, mobile: EvoMobileDetails) /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  @SerialName(value = "name")
+  val name: String
+    field = name
+    get
+
+  @SerialName(value = "first_name")
+  val firstName: String
+    field = firstName
+    get
+
+  @SerialName(value = "last_name")
+  val lastName: String
+    field = lastName
+    get
+
+  @SerialName(value = "email")
+  val email: String
+    field = email
+    get
+
+  @SerialName(value = "address")
+  @Contextual
+  val address: EvoProfileAddress
+    field = address
+    get
+
+  @SerialName(value = "mobile")
+  val mobile: EvoMobileDetails
+    field = mobile
+    get
+
+  fun toProfileDetails(): ProfileDetails {
+    return ProfileDetails(name = <this>.<get-name>(), firstName = <this>.<get-firstName>(), lastName = <this>.<get-lastName>(), email = <this>.<get-email>(), address = ProfileAddress(street = <this>.<get-address>().<get-street>(), postalCode = <this>.<get-address>().<get-postalCode>(), postalLocation = <this>.<get-address>().<get-postalLocation>()), mobile = MobileDetails(number = <this>.<get-mobile>().<get-number>(), prefix = <this>.<get-mobile>().<get-prefix>()))
+  }
+
+  data class EvoProfileAddress {
+    constructor(street: String, postalCode: String, postalLocation: String) /* primary */ {
+      super/*Any*/()
+      /* <init>() */
+
+    }
+
+    @SerialName(value = "street")
+    val street: String
+      field = street
+      get
+
+    @SerialName(value = "postal_code")
+    val postalCode: String
+      field = postalCode
+      get
+
+    @SerialName(value = "postal_location")
+    val postalLocation: String
+      field = postalLocation
+      get
+
+    operator fun component1(): String {
+      return <this>.#street
+    }
+
+    operator fun component2(): String {
+      return <this>.#postalCode
+    }
+
+    operator fun component3(): String {
+      return <this>.#postalLocation
+    }
+
+    fun copy(street: String = <this>.#street, postalCode: String = <this>.#postalCode, postalLocation: String = <this>.#postalLocation): EvoProfileAddress {
+      return EvoProfileAddress(street = street, postalCode = postalCode, postalLocation = postalLocation)
+    }
+
+    override fun toString(): String {
+      return "EvoProfileAddress(" + "street=" + <this>.#street + ", " + "postalCode=" + <this>.#postalCode + ", " + "postalLocation=" + <this>.#postalLocation + ")"
+    }
+
+    override fun hashCode(): Int {
+      var result: Int = <this>.#street.hashCode()
+      result = result.times(other = 31).plus(other = <this>.#postalCode.hashCode())
+      result = result.times(other = 31).plus(other = <this>.#postalLocation.hashCode())
+      return result
+    }
+
+    override operator fun equals(other: Any?): Boolean {
+      when {
+        EQEQEQ(arg0 = <this>, arg1 = other) -> return true
+      }
+      when {
+        other !is EvoProfileAddress -> return false
+      }
+      val tmp0_other_with_cast: EvoProfileAddress = other as EvoProfileAddress
+      when {
+        EQEQ(arg0 = <this>.#street, arg1 = tmp0_other_with_cast.#street).not() -> return false
+      }
+      when {
+        EQEQ(arg0 = <this>.#postalCode, arg1 = tmp0_other_with_cast.#postalCode).not() -> return false
+      }
+      when {
+        EQEQ(arg0 = <this>.#postalLocation, arg1 = tmp0_other_with_cast.#postalLocation).not() -> return false
+      }
+      return true
+    }
+
+  }
+
+  data class EvoMobileDetails {
+    constructor(number: String, prefix: String) /* primary */ {
+      super/*Any*/()
+      /* <init>() */
+
+    }
+
+    @SerialName(value = "number")
+    val number: String
+      field = number
+      get
+
+    @SerialName(value = "prefix")
+    val prefix: String
+      field = prefix
+      get
+
+    operator fun component1(): String {
+      return <this>.#number
+    }
+
+    operator fun component2(): String {
+      return <this>.#prefix
+    }
+
+    fun copy(number: String = <this>.#number, prefix: String = <this>.#prefix): EvoMobileDetails {
+      return EvoMobileDetails(number = number, prefix = prefix)
+    }
+
+    override fun toString(): String {
+      return "EvoMobileDetails(" + "number=" + <this>.#number + ", " + "prefix=" + <this>.#prefix + ")"
+    }
+
+    override fun hashCode(): Int {
+      var result: Int = <this>.#number.hashCode()
+      result = result.times(other = 31).plus(other = <this>.#prefix.hashCode())
+      return result
+    }
+
+    override operator fun equals(other: Any?): Boolean {
+      when {
+        EQEQEQ(arg0 = <this>, arg1 = other) -> return true
+      }
+      when {
+        other !is EvoMobileDetails -> return false
+      }
+      val tmp0_other_with_cast: EvoMobileDetails = other as EvoMobileDetails
+      when {
+        EQEQ(arg0 = <this>.#number, arg1 = tmp0_other_with_cast.#number).not() -> return false
+      }
+      when {
+        EQEQ(arg0 = <this>.#prefix, arg1 = tmp0_other_with_cast.#prefix).not() -> return false
+      }
+      return true
+    }
+
+  }
+
+  companion object Companion {
+    private constructor() /* primary */ {
+      super/*Any*/()
+      /* <init>() */
+
+    }
+
+    fun serializer(): KSerializer<EvoProfileDetails>
+
+    /* fake */ override operator fun equals(other: Any?): Boolean
+
+    /* fake */ override fun hashCode(): Int
+
+    /* fake */ override fun toString(): String
+
+  }
+
+  @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+  object $serializer : GeneratedSerializer<EvoProfileDetails> {
+    private constructor() /* primary */ {
+      super/*Any*/()
+      /* <init>() */
+
+    }
+
+    override fun serialize(encoder: Encoder, value: EvoProfileDetails)
+
+    override fun deserialize(decoder: Decoder): EvoProfileDetails
+
+    override val descriptor: SerialDescriptor
+      override get
+
+    override fun childSerializers(): Array<KSerializer<*>>
+
+    /* fake */ override fun typeParametersSerializers(): Array<KSerializer<*>>
+
+    /* fake */ override operator fun equals(other: Any?): Boolean
+
+    /* fake */ override fun hashCode(): Int
+
+    /* fake */ override fun toString(): String
+
+  }
+
+  operator fun component1(): String {
+    return <this>.#name
+  }
+
+  operator fun component2(): String {
+    return <this>.#firstName
+  }
+
+  operator fun component3(): String {
+    return <this>.#lastName
+  }
+
+  operator fun component4(): String {
+    return <this>.#email
+  }
+
+  operator fun component5(): EvoProfileAddress {
+    return <this>.#address
+  }
+
+  operator fun component6(): EvoMobileDetails {
+    return <this>.#mobile
+  }
+
+  fun copy(name: String = <this>.#name, firstName: String = <this>.#firstName, lastName: String = <this>.#lastName, email: String = <this>.#email, address: EvoProfileAddress = <this>.#address, mobile: EvoMobileDetails = <this>.#mobile): EvoProfileDetails {
+    return EvoProfileDetails(name = name, firstName = firstName, lastName = lastName, email = email, address = address, mobile = mobile)
+  }
+
+  override fun toString(): String {
+    return "EvoProfileDetails(" + "name=" + <this>.#name + ", " + "firstName=" + <this>.#firstName + ", " + "lastName=" + <this>.#lastName + ", " + "email=" + <this>.#email + ", " + "address=" + <this>.#address + ", " + "mobile=" + <this>.#mobile + ")"
+  }
+
+  override fun hashCode(): Int {
+    var result: Int = <this>.#name.hashCode()
+    result = result.times(other = 31).plus(other = <this>.#firstName.hashCode())
+    result = result.times(other = 31).plus(other = <this>.#lastName.hashCode())
+    result = result.times(other = 31).plus(other = <this>.#email.hashCode())
+    result = result.times(other = 31).plus(other = <this>.#address.hashCode())
+    result = result.times(other = 31).plus(other = <this>.#mobile.hashCode())
+    return result
+  }
+
+  override operator fun equals(other: Any?): Boolean {
+    when {
+      EQEQEQ(arg0 = <this>, arg1 = other) -> return true
+    }
+    when {
+      other !is EvoProfileDetails -> return false
+    }
+    val tmp0_other_with_cast: EvoProfileDetails = other as EvoProfileDetails
+    when {
+      EQEQ(arg0 = <this>.#name, arg1 = tmp0_other_with_cast.#name).not() -> return false
+    }
+    when {
+      EQEQ(arg0 = <this>.#firstName, arg1 = tmp0_other_with_cast.#firstName).not() -> return false
+    }
+    when {
+      EQEQ(arg0 = <this>.#lastName, arg1 = tmp0_other_with_cast.#lastName).not() -> return false
+    }
+    when {
+      EQEQ(arg0 = <this>.#email, arg1 = tmp0_other_with_cast.#email).not() -> return false
+    }
+    when {
+      EQEQ(arg0 = <this>.#address, arg1 = tmp0_other_with_cast.#address).not() -> return false
+    }
+    when {
+      EQEQ(arg0 = <this>.#mobile, arg1 = tmp0_other_with_cast.#mobile).not() -> return false
+    }
+    return true
+  }
+
+  @JvmStatic
+  internal fun write$Self(self: EvoProfileDetails, output: CompositeEncoder, serialDesc: SerialDescriptor)
+
+  internal constructor(seen0: Int, name: String?, firstName: String?, lastName: String?, email: String?, address: EvoProfileAddress?, mobile: EvoMobileDetails?, serializationConstructorMarker: SerializationConstructorMarker?)
+
+}
+
+`
+Details: kotlinx.serialization compiler plugin internal error: unable to transform declaration, see cause
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializerClassLowering.lower(SerializationLoweringExtension.kt:230)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitClass(SerializationLoweringExtension.kt:46)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid$DefaultImpls.visitClass(IrElementVisitorVoid.kt:44)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitClass(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitClass(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlin.ir.declarations.IrClass.accept(IrClass.kt:72)
+	at org.jetbrains.kotlin.ir.declarations.IrFile.acceptChildren(IrFile.kt:34)
+	at org.jetbrains.kotlin.ir.visitors.IrVisitorsKt.acceptChildrenVoid(IrVisitors.kt:15)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitElement(SerializationLoweringExtension.kt:42)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid$DefaultImpls.visitPackageFragment(IrElementVisitorVoid.kt:168)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitPackageFragment(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid$DefaultImpls.visitFile(IrElementVisitorVoid.kt:184)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitFile(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid$DefaultImpls.visitFile(IrElementVisitorVoid.kt:180)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitFile(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitFile(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlin.ir.declarations.IrFile.accept(IrFile.kt:28)
+	at org.jetbrains.kotlin.ir.visitors.IrVisitorsKt.acceptVoid(IrVisitors.kt:11)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt.runOnFileInOrder(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtension.generate(SerializationLoweringExtension.kt:194)
+	at org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt.applyIrGenerationExtensions(convertToIr.kt:442)
+	at org.jetbrains.kotlin.fir.pipeline.Fir2IrPipeline.runActualizationPipeline(convertToIr.kt:246)
+	at org.jetbrains.kotlin.fir.pipeline.Fir2IrPipeline.convertToIrAndActualize(convertToIr.kt:130)
+	at org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt.convertToIrAndActualize(convertToIr.kt:99)
+	at org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt.convertToIrAndActualize$default(convertToIr.kt:72)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.convertToIrAndActualizeForJvm(jvmCompilerPipeline.kt:196)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.convertAnalyzedFirToIr(jvmCompilerPipeline.kt:169)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.compileModulesUsingFrontendIrAndLightTree(jvmCompilerPipeline.kt:140)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecute(K2JVMCompiler.kt:148)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecute(K2JVMCompiler.kt:43)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.execImpl(CLICompiler.kt:103)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.execImpl(CLICompiler.kt:49)
+	at org.jetbrains.kotlin.cli.common.CLITool.exec(CLITool.kt:101)
+	at org.jetbrains.kotlin.incremental.IncrementalJvmCompilerRunner.runCompiler(IncrementalJvmCompilerRunner.kt:464)
+	at org.jetbrains.kotlin.incremental.IncrementalJvmCompilerRunner.runCompiler(IncrementalJvmCompilerRunner.kt:73)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.doCompile(IncrementalCompilerRunner.kt:506)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compileImpl(IncrementalCompilerRunner.kt:423)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.tryCompileIncrementally$lambda$9$compile(IncrementalCompilerRunner.kt:249)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.tryCompileIncrementally(IncrementalCompilerRunner.kt:267)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compile(IncrementalCompilerRunner.kt:120)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.execIncrementalCompiler(CompileServiceImpl.kt:675)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.access$execIncrementalCompiler(CompileServiceImpl.kt:92)
+	at org.jetbrains.kotlin.daemon.CompileServiceImpl.compile(CompileServiceImpl.kt:1656)
+	at jdk.internal.reflect.GeneratedMethodAccessor13.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:359)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:782)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:562)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:796)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:677)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:716)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:676)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:839)
+Caused by: java.lang.IllegalStateException: Serializer for element of type com.basse.api.external.responses.EvoProfileDetails.EvoMobileDetails has not been found
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializerSearchUtilKt.findTypeSerializerOrContext(SerializerSearchUtil.kt:84)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializerSearchUtilKt.getIrSerialTypeInfo(SerializerSearchUtil.kt:63)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.BaseIrGenerator.cacheableChildSerializerInstance(BaseIrGenerator.kt:488)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.BaseIrGenerator.createCachedChildSerializers(BaseIrGenerator.kt:468)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializableIrGenerator.<init>(SerializableIrGenerator.kt:59)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializableIrGenerator$Companion.generate(SerializableIrGenerator.kt:398)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializerClassLowering.lower(SerializationLoweringExtension.kt:146)
+	... 58 more
+
+
