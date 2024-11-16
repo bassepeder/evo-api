@@ -54,6 +54,7 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
                         name = details.locationDetails.name,
                     ),
                     gdprConsentGiven = details.gdprOptIn,
+                    locale = details.locale,
                     referralCode = details.referralCode,
                     currentPaymentMethod = CurrentPaymentMethod(
                         id = details.currentPaymentMethod.id,
