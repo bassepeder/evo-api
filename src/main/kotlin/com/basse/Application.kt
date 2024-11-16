@@ -3,6 +3,7 @@ package com.basse
 import com.basse.api.external.EvoApiClient
 import com.basse.api.external.EvoApiServiceImpl
 import com.basse.api.routes.authRoutes
+import com.basse.api.routes.invoiceRoutes
 import com.basse.api.routes.membershipRoutes
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
@@ -43,5 +44,6 @@ fun Application.module() {
     routing {
         authRoutes(EvoApiServiceImpl(EvoApiClient()))
         membershipRoutes(EvoApiServiceImpl(EvoApiClient()))
+        invoiceRoutes(EvoApiServiceImpl(EvoApiClient()))
     }
 }
