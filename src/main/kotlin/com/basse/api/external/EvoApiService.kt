@@ -12,7 +12,7 @@ interface EvoApiService {
         password: String,
     ): Result<EvoAuthenticateUserResponse>
 
-    suspend fun getMembershipDetails(token: String): Result<MembershipDetailsResponse>
+    suspend fun getMembershipDetails(token: String): MembershipDetailsResponse
 
     suspend fun getInvoices(token: String): List<Invoice>
     suspend fun getNextInvoice(token: String): NextInvoice

@@ -15,14 +15,7 @@ fun Route.membershipRoutes(service: EvoApiService) {
 
             val result = service.getMembershipDetails(token!!)
 
-            result.fold(
-                onSuccess = { response ->
-                    call.respond(HttpStatusCode.OK, response)
-                },
-                onFailure = { exception ->
-                    call.respond(HttpStatusCode.InternalServerError, "Internal server error.")
-                }
-            )
+            call.respond(HttpStatusCode.OK, result)
         }
     }
 }
