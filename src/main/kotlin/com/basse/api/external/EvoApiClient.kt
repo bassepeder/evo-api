@@ -74,14 +74,12 @@ class EvoApiClient  {
         }
     }
 
-    suspend fun getMembershipDetails(token: String): Result<EvoMembershipDetailsResponse> {
+    suspend fun getMembershipDetails(token: String): EvoMembershipDetailsResponse {
         val response: HttpResponse = client.get("v2/membership") {
             header(HttpHeaders.Authorization, token)
         }
 
-        val responseBody = response.body<EvoMembershipDetailsResponse>()
-
-        return Result.success(responseBody)
+        return response.body<EvoMembershipDetailsResponse>()
     }
 
     suspend fun getInvoices(token: String): List<EvoInvoicesResponse> {
