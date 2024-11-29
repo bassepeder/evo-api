@@ -4,7 +4,9 @@ import com.basse.Constants
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
 import com.basse.api.responses.CurrentPaymentMethod
 import com.basse.api.responses.Invoice
+import com.basse.api.responses.location.Location
 import com.basse.api.responses.LocationDetails
+import com.basse.api.responses.location.LocationStatistics
 import com.basse.api.responses.MemberWorkouts
 import com.basse.api.responses.MembershipDetails
 import com.basse.api.responses.MembershipDetailsResponse
@@ -13,6 +15,9 @@ import com.basse.api.responses.MembershipStatus
 import com.basse.api.responses.NextInvoice
 import com.basse.api.responses.ProductDetails
 import com.basse.api.responses.WorkoutMonth
+import com.basse.api.responses.location.LocationStatisticsTimeline
+import com.basse.api.responses.location.LocationStatisticsTimelineInterval
+import kotlin.String
 
 class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
 
@@ -97,5 +102,41 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
                 month = month.month,
             )}
         )
+    }
+
+    override suspend fun getLocations(): List<Location> {
+        val locations = apiClient.getLocations()
+
+        return locations.map { l -> Location(id = l.id, name = l.name ) }
+    }
+
+    override suspend fun getLocationStatistics(id: String): LocationStatistics? {
+        val statistics = apiClient.getLocationStatistics(id)
+
+        return statistics?.let { s -> LocationStatistics(
+            id = s.id,
+            name = s.name,
+            current = s.current,
+            maxCapacity = s.maxCapacity,
+            percentageUsed = s.percentageUsed,
+        ) }
+    }
+
+    override suspend fun getLocationStatisticsTimeline(id: String): LocationStatisticsTimeline? {
+        val timeline = apiClient.getLocationStatisticsTimeline(id)
+
+        return timeline?.let { t -> LocationStatisticsTimeline(
+            id = t.id,
+            name = t.name,
+            intervals = t.intervals.map { i -> LocationStatisticsTimelineInterval(
+                name = i.name,
+                begin = i.begin,
+                end = i.end,
+                maxCapacity = i.maxCapacity,
+                onsiteMinutes = (i.onsiteMinutes as? Int) ?: (i.onsiteMinutes.toString().toIntOrNull() ?: 0), // Shit design by EVO.
+                percentageUsed = i.percentageUsed,
+                status = i.status,
+            )},
+        ) }
     }
 }
