@@ -4,6 +4,10 @@ import com.basse.Constants
 import com.basse.api.external.requests.EvoAuthenticateUserRequest
 import com.basse.api.external.responses.EvoApiErrorResponse
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
+import com.basse.api.external.responses.EvoLocationDetails
+import com.basse.api.external.responses.EvoLocationStatistics
+import com.basse.api.external.responses.EvoLocationStatisticsTimeline
+import com.basse.api.external.responses.EvoLocationStatisticsTimelineInterval
 import com.basse.api.external.responses.EvoMemberWorkoutsResponse
 import com.basse.api.external.responses.invoices.EvoInvoicesResponse
 import com.basse.api.external.responses.EvoMembershipDetailsResponse
@@ -22,7 +26,7 @@ import kotlinx.serialization.json.Json
 private const val INCORRECT_PASSWORD_API_REASON = "Error: Password check failed"
 
 class EvoApiClient  {
-    private val client: HttpClient by lazy {
+    private val defaultClient: HttpClient by lazy {
         HttpClient(CIO) {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
@@ -31,6 +35,23 @@ class EvoApiClient  {
                 url {
                     protocol = URLProtocol.HTTPS
                     host = Constants.API_BASE_HOST
+                }
+                header(HttpHeaders.Referrer, Constants.CLIENT_REFERRER)
+                header(HttpHeaders.Origin, Constants.CLIENT_ORIGIN)
+                contentType(ContentType.Application.Json)
+            }
+        }
+    }
+
+    private val visitsClient: HttpClient by lazy {
+        HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json(Json { ignoreUnknownKeys = true })
+            }
+            install(DefaultRequest) {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = Constants.API_BASE_HOST_VISITS
                 }
                 header(HttpHeaders.Referrer, Constants.CLIENT_REFERRER)
                 header(HttpHeaders.Origin, Constants.CLIENT_ORIGIN)
@@ -50,7 +71,7 @@ class EvoApiClient  {
         val request = EvoAuthenticateUserRequest(operatorId, username, password)
 
         return try {
-            val response: HttpResponse = client.post("auth/authenticate") {
+            val response: HttpResponse = defaultClient.post("auth/authenticate") {
                 setBody(request)
             }
 
@@ -75,7 +96,7 @@ class EvoApiClient  {
     }
 
     suspend fun getMembershipDetails(token: String): EvoMembershipDetailsResponse {
-        val response: HttpResponse = client.get("v2/membership") {
+        val response: HttpResponse = defaultClient.get("v2/membership") {
             header(HttpHeaders.Authorization, token)
         }
 
@@ -83,7 +104,7 @@ class EvoApiClient  {
     }
 
     suspend fun getInvoices(token: String): List<EvoInvoicesResponse> {
-        val response: HttpResponse = client.get("v1/membership/invoices") {
+        val response: HttpResponse = defaultClient.get("v1/membership/invoices") {
             header(HttpHeaders.Authorization, token)
         }
 
@@ -91,7 +112,7 @@ class EvoApiClient  {
     }
 
     suspend fun getNextInvoice(token: String): EvoNextInvoiceResponse {
-        val response: HttpResponse = client.get("v1/membership/invoices/next") {
+        val response: HttpResponse = defaultClient.get("v1/membership/invoices/next") {
             header(HttpHeaders.Authorization, token)
         }
 
@@ -99,10 +120,38 @@ class EvoApiClient  {
     }
 
     suspend fun getWorkoutsForMember(token: String): EvoMemberWorkoutsResponse {
-        val response: HttpResponse = client.get("v2/workouts") {
+        val response: HttpResponse = defaultClient.get("v2/workouts") {
             header(HttpHeaders.Authorization, token)
         }
 
         return response.body<EvoMemberWorkoutsResponse>()
+    }
+
+    suspend fun getLocations(): List<EvoLocationDetails> {
+        val response: HttpResponse = visitsClient.get("api/v1/locations?operator=${Constants.OPERATOR_ID}")
+
+        return response.body<List<EvoLocationDetails>>()
+    }
+
+    suspend fun getLocationStatistics(id: String): EvoLocationStatistics? {
+        val response: HttpResponse = visitsClient.get("api/v1/locations/${id}/current")
+
+        return when {
+            response.status == HttpStatusCode.InternalServerError -> null
+            response.status == HttpStatusCode.NotFound -> null
+            response.status.isSuccess() -> response.body<EvoLocationStatistics>()
+            else -> null
+        }
+    }
+
+    suspend fun getLocationStatisticsTimeline(id: String): EvoLocationStatisticsTimeline? {
+        val response: HttpResponse = visitsClient.get("api/v1/locations/${id}/timeline")
+
+        return when {
+            response.status == HttpStatusCode.InternalServerError -> null
+            response.status == HttpStatusCode.NotFound -> null
+            response.status.isSuccess() -> response.body<EvoLocationStatisticsTimeline>()
+            else -> null
+        }
     }
 }
