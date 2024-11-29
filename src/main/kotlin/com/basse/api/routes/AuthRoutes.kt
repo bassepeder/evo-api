@@ -27,9 +27,9 @@ fun Route.authRoutes(service: EvoApiService) {
                 },
                 onFailure = { exception ->
                     if (exception is UnauthorizedException || exception is UserNotFoundException)
-                        call.respond(HttpStatusCode.Unauthorized, "The supplied credentials are not correct.")
+                        call.respond(HttpStatusCode.Unauthorized)
                     else
-                        call.respond(HttpStatusCode.InternalServerError, "Internal server error.")
+                        call.respond(HttpStatusCode.InternalServerError)
                 }
             )
         }
