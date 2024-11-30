@@ -15,7 +15,6 @@ data class LocationStatisticsTimelineInterval(
     val begin: Int,
     val end: Int,
     val maxCapacity: Int,
-    val onsiteMinutes: Int,
     val percentageUsed: Double,
     val status: String,
 )
