@@ -133,7 +133,6 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
                 begin = i.begin,
                 end = i.end,
                 maxCapacity = i.maxCapacity,
-                onsiteMinutes = (i.onsiteMinutes as? Int) ?: (i.onsiteMinutes.toString().toIntOrNull() ?: 0), // Shit design by EVO.
                 percentageUsed = i.percentageUsed,
                 status = i.status,
             )},
