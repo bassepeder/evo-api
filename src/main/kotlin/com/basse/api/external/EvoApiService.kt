@@ -8,6 +8,7 @@ import com.basse.api.responses.MemberWorkouts
 import com.basse.api.responses.MembershipDetailsResponse
 import com.basse.api.responses.NextInvoice
 import com.basse.api.responses.location.LocationStatisticsTimeline
+import kotlinx.datetime.LocalDate
 
 interface EvoApiService {
     suspend fun authenticateUser(
@@ -25,5 +26,6 @@ interface EvoApiService {
     suspend fun getLocations(): List<Location>
     suspend fun getLocationStatistics(id: String): LocationStatistics?
     suspend fun getLocationStatisticsTimeline(id: String): LocationStatisticsTimeline?
+    suspend fun getLocationStatisticsTimelineForDate(id: String, date: LocalDate): LocationStatisticsTimeline?
 }
 

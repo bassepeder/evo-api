@@ -2,15 +2,8 @@ package com.basse.api.external
 
 import com.basse.Constants
 import com.basse.api.external.requests.EvoAuthenticateUserRequest
-import com.basse.api.external.responses.EvoApiErrorResponse
-import com.basse.api.external.responses.EvoAuthenticateUserResponse
-import com.basse.api.external.responses.EvoLocationDetails
-import com.basse.api.external.responses.EvoLocationStatistics
-import com.basse.api.external.responses.EvoLocationStatisticsTimeline
-import com.basse.api.external.responses.EvoLocationStatisticsTimelineInterval
-import com.basse.api.external.responses.EvoMemberWorkoutsResponse
+import com.basse.api.external.responses.*
 import com.basse.api.external.responses.invoices.EvoInvoicesResponse
-import com.basse.api.external.responses.EvoMembershipDetailsResponse
 import com.basse.api.external.responses.invoices.EvoNextInvoiceResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -21,6 +14,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.json.Json
 
 private const val INCORRECT_PASSWORD_API_REASON = "Error: Password check failed"
@@ -146,6 +140,17 @@ class EvoApiClient  {
 
     suspend fun getLocationStatisticsTimeline(id: String): EvoLocationStatisticsTimeline? {
         val response: HttpResponse = visitsClient.get("api/v1/locations/${id}/timeline")
+
+        return when {
+            response.status == HttpStatusCode.InternalServerError -> null
+            response.status == HttpStatusCode.NotFound -> null
+            response.status.isSuccess() -> response.body<EvoLocationStatisticsTimeline>()
+            else -> null
+        }
+    }
+
+    suspend fun getLocationStatisticsTimelineForDate(id: String, date: LocalDate): EvoLocationStatisticsTimeline? {
+        val response: HttpResponse = visitsClient.get("api/v1/locations/${id}/timeline?date=$date")
 
         return when {
             response.status == HttpStatusCode.InternalServerError -> null
