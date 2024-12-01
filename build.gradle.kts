@@ -29,6 +29,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:3.0.1")
     implementation("io.ktor:ktor-client-content-negotiation:3.0.1")
     implementation("io.ktor:ktor-client-cio-jvm:3.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
 
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("io.ktor:ktor-server-config-yaml")
