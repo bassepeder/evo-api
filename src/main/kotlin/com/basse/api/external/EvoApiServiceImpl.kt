@@ -17,6 +17,7 @@ import com.basse.api.responses.ProductDetails
 import com.basse.api.responses.WorkoutMonth
 import com.basse.api.responses.location.LocationStatisticsTimeline
 import com.basse.api.responses.location.LocationStatisticsTimelineInterval
+import kotlinx.datetime.LocalDate
 import kotlin.String
 
 class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
@@ -124,6 +125,26 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
 
     override suspend fun getLocationStatisticsTimeline(id: String): LocationStatisticsTimeline? {
         val timeline = apiClient.getLocationStatisticsTimeline(id)
+
+        return timeline?.let { t -> LocationStatisticsTimeline(
+            id = t.id,
+            name = t.name,
+            intervals = t.intervals.map { i -> LocationStatisticsTimelineInterval(
+                name = i.name,
+                begin = i.begin,
+                end = i.end,
+                maxCapacity = i.maxCapacity,
+                percentageUsed = i.percentageUsed,
+                status = i.status,
+            )},
+        ) }
+    }
+
+    override suspend fun getLocationStatisticsTimelineForDate(
+        id: String,
+        date: LocalDate
+    ): LocationStatisticsTimeline? {
+        val timeline = apiClient.getLocationStatisticsTimelineForDate(id, date)
 
         return timeline?.let { t -> LocationStatisticsTimeline(
             id = t.id,
