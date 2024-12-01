@@ -126,18 +126,7 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
     override suspend fun getLocationStatisticsTimeline(id: String): LocationStatisticsTimeline? {
         val timeline = apiClient.getLocationStatisticsTimeline(id)
 
-        return timeline?.let { t -> LocationStatisticsTimeline(
-            id = t.id,
-            name = t.name,
-            intervals = t.intervals.map { i -> LocationStatisticsTimelineInterval(
-                name = i.name,
-                begin = i.begin,
-                end = i.end,
-                maxCapacity = i.maxCapacity,
-                percentageUsed = i.percentageUsed,
-                status = i.status,
-            )},
-        ) }
+        return timeline?.let { t -> LocationStatisticsTimeline.fromExternalResponse(t) }
     }
 
     override suspend fun getLocationStatisticsTimelineForDate(
@@ -146,17 +135,6 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
     ): LocationStatisticsTimeline? {
         val timeline = apiClient.getLocationStatisticsTimelineForDate(id, date)
 
-        return timeline?.let { t -> LocationStatisticsTimeline(
-            id = t.id,
-            name = t.name,
-            intervals = t.intervals.map { i -> LocationStatisticsTimelineInterval(
-                name = i.name,
-                begin = i.begin,
-                end = i.end,
-                maxCapacity = i.maxCapacity,
-                percentageUsed = i.percentageUsed,
-                status = i.status,
-            )},
-        ) }
+        return timeline?.let { t -> LocationStatisticsTimeline.fromExternalResponse(t) }
     }
 }
