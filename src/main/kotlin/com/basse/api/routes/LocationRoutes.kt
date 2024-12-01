@@ -66,7 +66,7 @@ fun Route.locationRoutes(service: EvoApiService) {
 
             val result = service.getLocationStatisticsTimelineForDate(id, parsedDate) ?: return@get call.respond(
                 HttpStatusCode.NotFound,
-                "Location with id '$date' was not found."
+                "Location with id '$id' was not found."
             )
 
             call.respond(HttpStatusCode.OK, result)
