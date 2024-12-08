@@ -1,5 +1,6 @@
 package com.basse.api.responses
 
+import com.basse.api.external.responses.EvoMembershipDetailsResponse
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -13,7 +14,47 @@ data class MembershipDetailsResponse(
     val locale: String,
     val gdprConsentGiven: Boolean,
     val currentPaymentMethod: CurrentPaymentMethod,
-)
+) {
+    companion object {
+        fun mapFromEvoResponse(details: EvoMembershipDetailsResponse): MembershipDetailsResponse {
+            return MembershipDetailsResponse(
+                membershipDetails = MembershipDetails(
+                    id = details.membershipId,
+                    number = details.membershipNumber,
+                    status = MembershipStatus.fromString(details.status),
+                    createdAt = details.membershipCreatedAt,
+                    beganAt = details.membershipBeganAt,
+                    endsAt = details.membershipEndsAt,
+                    activatesOn = details.membershipActivatesOn,
+                    freezes = details.freezePeriods?.map { period -> MembershipFreeze(
+                        id = period.id,
+                        startDate = period.beginDate,
+                        endDate = period.endDate,
+                        cancelledDate = period.cancelDate
+                    )} ?: emptyList(),
+                ),
+                keys = details.keys.map { key -> key.toKey() },
+                profile = details.profile.toProfileDetails(),
+                product = ProductDetails(
+                    postSignupPresentation = details.productDetails.postSignupPresentation,
+                    requiresPhoneVerification = details.productDetails.requirePhoneVerification,
+                ),
+                location = LocationDetails(
+                    id = details.locationDetails.id,
+                    name = details.locationDetails.name,
+                ),
+                gdprConsentGiven = details.gdprOptIn,
+                locale = details.locale,
+                referralCode = details.referralCode,
+                currentPaymentMethod = CurrentPaymentMethod(
+                    id = details.currentPaymentMethod.id,
+                    brand = details.currentPaymentMethod.brand,
+                    details = details.currentPaymentMethod.details,
+                )
+            )
+        }
+    }
+}
 
 @Serializable
 data class MembershipDetails(

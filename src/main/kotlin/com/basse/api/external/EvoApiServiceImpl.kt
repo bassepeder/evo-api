@@ -1,24 +1,14 @@
 package com.basse.api.external
 
 import com.basse.Constants
+import com.basse.api.external.EvoApiClient.UnauthorizedException
+import com.basse.api.external.EvoApiClient.UserNotFoundException
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
-import com.basse.api.responses.CurrentPaymentMethod
-import com.basse.api.responses.Invoice
+import com.basse.api.responses.*
 import com.basse.api.responses.location.Location
-import com.basse.api.responses.LocationDetails
 import com.basse.api.responses.location.LocationStatistics
-import com.basse.api.responses.MemberWorkouts
-import com.basse.api.responses.MembershipDetails
-import com.basse.api.responses.MembershipDetailsResponse
-import com.basse.api.responses.MembershipFreeze
-import com.basse.api.responses.MembershipStatus
-import com.basse.api.responses.NextInvoice
-import com.basse.api.responses.ProductDetails
-import com.basse.api.responses.WorkoutMonth
 import com.basse.api.responses.location.LocationStatisticsTimeline
-import com.basse.api.responses.location.LocationStatisticsTimelineInterval
 import kotlinx.datetime.LocalDate
-import kotlin.String
 
 class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
 
@@ -29,42 +19,19 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
             password = password
         )
 
-    override suspend fun getMembershipDetails(token: String): MembershipDetailsResponse {
-        val details = apiClient.getMembershipDetails(token)
-        return MembershipDetailsResponse(
-            membershipDetails = MembershipDetails(
-                id = details.membershipId,
-                number = details.membershipNumber,
-                status = MembershipStatus.fromString(details.status),
-                createdAt = details.membershipCreatedAt,
-                beganAt = details.membershipBeganAt,
-                endsAt = details.membershipEndsAt,
-                activatesOn = details.membershipActivatesOn,
-                freezes = details.freezePeriods?.map { period -> MembershipFreeze(
-                    id = period.id,
-                    startDate = period.beginDate,
-                    endDate = period.endDate,
-                    cancelledDate = period.cancelDate
-                )} ?: emptyList(),
-            ),
-            keys = details.keys.map { key -> key.toKey() },
-            profile = details.profile.toProfileDetails(),
-            product = ProductDetails(
-                postSignupPresentation = details.productDetails.postSignupPresentation,
-                requiresPhoneVerification = details.productDetails.requirePhoneVerification,
-            ),
-            location = LocationDetails(
-                id = details.locationDetails.id,
-                name = details.locationDetails.name,
-            ),
-            gdprConsentGiven = details.gdprOptIn,
-            locale = details.locale,
-            referralCode = details.referralCode,
-            currentPaymentMethod = CurrentPaymentMethod(
-                id = details.currentPaymentMethod.id,
-                brand = details.currentPaymentMethod.brand,
-                details = details.currentPaymentMethod.details,
-            )
+    override suspend fun getMembershipDetails(token: String): Result<MembershipDetailsResponse> {
+        val result = apiClient.getMembershipDetails(token)
+
+        return result.fold(
+            onSuccess = { details ->
+                return Result.success(MembershipDetailsResponse.mapFromEvoResponse(details))
+            },
+            onFailure = { exception ->
+                if (exception is UnauthorizedException || exception is UserNotFoundException)
+                    return Result.failure(exception)
+                else
+                    throw Exception("Unknown HTTP error")
+            }
         )
     }
 
