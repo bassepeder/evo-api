@@ -89,12 +89,26 @@ class EvoApiClient  {
         }
     }
 
-    suspend fun getMembershipDetails(token: String): EvoMembershipDetailsResponse {
-        val response: HttpResponse = defaultClient.get("v2/membership") {
-            header(HttpHeaders.Authorization, token)
-        }
+    suspend fun getMembershipDetails(token: String): Result<EvoMembershipDetailsResponse> {
+        return try {
+            val response: HttpResponse = defaultClient.get("v2/membership") {
+                header(HttpHeaders.Authorization, token)
+            }
 
-        return response.body<EvoMembershipDetailsResponse>()
+            if (response.status.isSuccess()) {
+                val body = response.body<EvoMembershipDetailsResponse>()
+                Result.success(body)
+            } else {
+                val responseBody = response.body<EvoExpiredTokenResponse>()
+                if (responseBody.errorCode == 401) {
+                    return Result.failure(UnauthorizedException())
+                }
+
+                return Result.failure(Exception("HTTP error: ${response.status.value}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     suspend fun getInvoices(token: String): List<EvoInvoicesResponse> {

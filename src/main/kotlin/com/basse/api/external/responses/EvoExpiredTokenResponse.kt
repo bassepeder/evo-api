@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EvoApiErrorResponse(
-    @SerialName("status") val status: String,
+data class EvoExpiredTokenResponse(
+    @SerialName("error") val errorCode: Int,
     @SerialName("reason") val reason: String
 )
