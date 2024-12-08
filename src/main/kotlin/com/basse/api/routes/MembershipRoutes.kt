@@ -1,7 +1,6 @@
 package com.basse.api.routes
 
 import com.basse.api.external.EvoApiClient.UnauthorizedException
-import com.basse.api.external.EvoApiClient.UserNotFoundException
 import com.basse.api.external.EvoApiService
 import io.ktor.http.*
 import io.ktor.server.response.*
@@ -19,7 +18,7 @@ fun Route.membershipRoutes(service: EvoApiService) {
                     call.respond(HttpStatusCode.OK, response)
                 },
                 onFailure = { exception ->
-                    if (exception is UnauthorizedException || exception is UserNotFoundException)
+                    if (exception is UnauthorizedException)
                         call.respond(HttpStatusCode.Unauthorized)
                     else
                         call.respond(HttpStatusCode.InternalServerError)
