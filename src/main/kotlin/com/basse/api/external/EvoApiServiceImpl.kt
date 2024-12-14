@@ -4,6 +4,7 @@ import com.basse.Constants
 import com.basse.api.external.EvoApiClient.UnauthorizedException
 import com.basse.api.external.EvoApiClient.UserNotFoundException
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
+import com.basse.api.requests.UpdateProfileRequest
 import com.basse.api.responses.*
 import com.basse.api.responses.location.Location
 import com.basse.api.responses.location.LocationStatistics
@@ -33,6 +34,10 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
                     throw Exception("Unknown HTTP error")
             }
         )
+    }
+
+    override suspend fun updateProfile(token: String, request: UpdateProfileRequest): Boolean {
+        return apiClient.updateProfile(token, request.toExternalRequest())
     }
 
     override suspend fun getInvoices(token: String): List<Invoice> {
