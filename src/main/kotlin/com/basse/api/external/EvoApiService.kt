@@ -1,6 +1,7 @@
 package com.basse.api.external
 
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
+import com.basse.api.requests.UpdateProfileRequest
 import com.basse.api.responses.Invoice
 import com.basse.api.responses.MemberWorkouts
 import com.basse.api.responses.MembershipDetailsResponse
@@ -17,6 +18,8 @@ interface EvoApiService {
     ): Result<EvoAuthenticateUserResponse>
 
     suspend fun getMembershipDetails(token: String): Result<MembershipDetailsResponse>
+
+    suspend fun updateProfile(token: String, request: UpdateProfileRequest): Boolean
 
     suspend fun getInvoices(token: String): List<Invoice>
     suspend fun getNextInvoice(token: String): NextInvoice
