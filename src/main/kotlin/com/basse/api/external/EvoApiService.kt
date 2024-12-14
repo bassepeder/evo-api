@@ -23,7 +23,7 @@ interface EvoApiService {
 
     suspend fun getWorkoutsForMember(token: String): MemberWorkouts
 
-    suspend fun getLocations(): List<Location>
+    suspend fun getLocations(token: String): List<Location>
     suspend fun getLocationStatistics(id: String): LocationStatistics?
     suspend fun getLocationStatisticsTimeline(id: String): LocationStatisticsTimeline?
     suspend fun getLocationStatisticsTimelineForDate(id: String, date: LocalDate): LocationStatisticsTimeline?
