@@ -135,8 +135,10 @@ class EvoApiClient  {
         return response.body<EvoMemberWorkoutsResponse>()
     }
 
-    suspend fun getLocations(): List<EvoLocationDetails> {
-        val response: HttpResponse = visitsClient.get("api/v1/locations?operator=${Constants.OPERATOR_ID}")
+    suspend fun getLocations(token: String): List<EvoLocationDetails> {
+        val response: HttpResponse = defaultClient.get("v1/membership/locations") {
+            header(HttpHeaders.Authorization, token)
+        }
 
         return response.body<List<EvoLocationDetails>>()
     }

@@ -1,17 +1,17 @@
 package com.basse.api.routes
 
 import com.basse.api.external.EvoApiService
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.response.respond
-import io.ktor.server.routing.Route
-import io.ktor.server.routing.get
-import io.ktor.server.routing.route
+import io.ktor.http.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import kotlinx.datetime.LocalDate
 
 fun Route.locationRoutes(service: EvoApiService) {
     route("api/v1/locations") {
         get {
-            val result = service.getLocations()
+            val token = call.request.headers[HttpHeaders.Authorization]!!
+
+            val result = service.getLocations(token)
 
             call.respond(HttpStatusCode.OK, result)
         }

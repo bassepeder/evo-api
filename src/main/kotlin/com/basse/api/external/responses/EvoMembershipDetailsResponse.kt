@@ -116,4 +116,7 @@ data class EvoProductDetails(
 data class EvoLocationDetails(
     @SerialName("id") val id: String,
     @SerialName("name") val name: String,
+    @SerialName("opening_date") val openingDate: String,
+    @SerialName("street") val street: String,
+    @SerialName("closing_date") val closingDate: String?,
 )

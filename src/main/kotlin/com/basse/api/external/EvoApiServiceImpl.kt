@@ -72,10 +72,18 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
         )
     }
 
-    override suspend fun getLocations(): List<Location> {
-        val locations = apiClient.getLocations()
+    override suspend fun getLocations(token: String): List<Location> {
+        val locations = apiClient.getLocations(token)
 
-        return locations.map { l -> Location(id = l.id, name = l.name ) }
+        return locations.map { l ->
+            Location(
+                id = l.id,
+                name = l.name,
+                street = l.street,
+                openingDate = LocalDate.parse(l.openingDate),
+                closingDate = if (l.closingDate == null) null else LocalDate.parse(l.closingDate)
+            )
+        }
     }
 
     override suspend fun getLocationStatistics(id: String): LocationStatistics? {
