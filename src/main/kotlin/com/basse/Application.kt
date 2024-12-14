@@ -3,7 +3,6 @@ package com.basse
 import com.basse.api.external.EvoApiClient
 import com.basse.api.external.EvoApiServiceImpl
 import com.basse.api.routes.*
-import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
@@ -19,7 +18,6 @@ fun main(args: Array<String>) {
 @OptIn(ExperimentalSerializationApi::class)
 fun Application.module() {
     install(ContentNegotiation) {
-        ignoreType<HttpStatusCode>()
         json(Json {
             prettyPrint = true
             explicitNulls = false

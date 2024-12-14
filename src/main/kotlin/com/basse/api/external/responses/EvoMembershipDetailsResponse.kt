@@ -116,7 +116,7 @@ data class EvoProductDetails(
 data class EvoLocationDetails(
     @SerialName("id") val id: String,
     @SerialName("name") val name: String,
-    @SerialName("opening_date") val openingDate: String,
-    @SerialName("street") val street: String,
-    @SerialName("closing_date") val closingDate: String?,
-)
+    @SerialName("opening_date") val openingDate: String? = null,
+    @SerialName("street") val street: String? = null,
+    @SerialName("closing_date") val closingDate: String? = null,
+) // TODO: improve this. location on membership is slim and only contains id and name.
