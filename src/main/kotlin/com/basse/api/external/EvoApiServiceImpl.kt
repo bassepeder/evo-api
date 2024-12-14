@@ -79,8 +79,8 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
             Location(
                 id = l.id,
                 name = l.name,
-                street = l.street,
-                openingDate = LocalDate.parse(l.openingDate),
+                street = l.street!!,
+                openingDate = LocalDate.parse(l.openingDate!!),
                 closingDate = if (l.closingDate == null) null else LocalDate.parse(l.closingDate)
             )
         }
