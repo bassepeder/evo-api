@@ -2,6 +2,7 @@ package com.basse.api.external
 
 import com.basse.Constants
 import com.basse.api.external.requests.EvoAuthenticateUserRequest
+import com.basse.api.external.requests.EvoUpdatePrimaryProfileLocationRequest
 import com.basse.api.external.requests.EvoUpdateProfileRequest
 import com.basse.api.external.responses.*
 import com.basse.api.external.responses.invoices.EvoInvoicesResponse
@@ -179,6 +180,15 @@ class EvoApiClient  {
 
     suspend fun updateProfile(token: String, request: EvoUpdateProfileRequest): Boolean {
         val response = defaultClient.patch("v1/membership/profile") {
+            header(HttpHeaders.Authorization, token)
+            setBody(request)
+        }
+
+        return response.status.isSuccess()
+    }
+
+    suspend fun updatePrimaryLocation(token: String, request: EvoUpdatePrimaryProfileLocationRequest): Boolean {
+        val response = defaultClient.post("v1/membership/update-location") {
             header(HttpHeaders.Authorization, token)
             setBody(request)
         }
