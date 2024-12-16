@@ -2,6 +2,7 @@ package com.basse.api.routes
 
 import com.basse.api.external.EvoApiClient.UnauthorizedException
 import com.basse.api.external.EvoApiService
+import com.basse.api.requests.UpdatePrimaryLocationRequest
 import com.basse.api.requests.UpdateProfileRequest
 import io.ktor.http.*
 import io.ktor.server.request.*
@@ -26,6 +27,18 @@ fun Route.membershipRoutes(service: EvoApiService) {
                         call.respond(HttpStatusCode.InternalServerError)
                 }
             )
+        }
+
+        put("update-location") {
+            val token = call.request.headers[HttpHeaders.Authorization]!!
+            val request = call.receive<UpdatePrimaryLocationRequest>()
+
+            val ok = service.updatePrimaryLocation(token, request)
+
+            if (ok)
+                call.respond(HttpStatusCode.OK)
+            else
+                call.respond(HttpStatusCode.InternalServerError)
         }
 
         patch("profile") {

@@ -4,6 +4,7 @@ import com.basse.Constants
 import com.basse.api.external.EvoApiClient.UnauthorizedException
 import com.basse.api.external.EvoApiClient.UserNotFoundException
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
+import com.basse.api.requests.UpdatePrimaryLocationRequest
 import com.basse.api.requests.UpdateProfileRequest
 import com.basse.api.responses.*
 import com.basse.api.responses.location.Location
@@ -36,9 +37,13 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
         )
     }
 
-    override suspend fun updateProfile(token: String, request: UpdateProfileRequest): Boolean {
-        return apiClient.updateProfile(token, request.toExternalRequest())
-    }
+    override suspend fun updatePrimaryLocation(
+        token: String,
+        request: UpdatePrimaryLocationRequest
+    ): Boolean = apiClient.updatePrimaryLocation(token, request.toExternalRequest())
+
+    override suspend fun updateProfile(token: String, request: UpdateProfileRequest): Boolean =
+        apiClient.updateProfile(token, request.toExternalRequest())
 
     override suspend fun getInvoices(token: String): List<Invoice> {
         var invoices = apiClient.getInvoices(token)
