@@ -10,7 +10,10 @@ import com.basse.api.responses.*
 import com.basse.api.responses.location.Location
 import com.basse.api.responses.location.LocationStatistics
 import com.basse.api.responses.location.LocationStatisticsTimeline
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
 
@@ -34,6 +37,21 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
                 else
                     throw Exception("Unknown HTTP error")
             }
+        )
+    }
+
+    override suspend fun getCurrentMembershipReferral(token: String): CurrentMembershipReferral {
+        val result = apiClient.getCurrentMembershipReferral(token)
+
+        return CurrentMembershipReferral(
+            id = result.id,
+            name = result.name,
+            discountMountsCount = result.discountMountsCount,
+            discountPercentage = result.discountPercentage,
+            includedPtHoursAmount = result.includedPtHoursAmount,
+            description = result.description,
+            validFrom = Instant.parse(result.salesPeriod.from).toLocalDateTime(TimeZone.UTC),
+            validUntil = if (result.salesPeriod.to == null) null else Instant.parse(result.salesPeriod.to).toLocalDateTime(TimeZone.UTC),
         )
     }
 

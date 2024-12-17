@@ -195,4 +195,12 @@ class EvoApiClient  {
 
         return response.status.isSuccess()
     }
+
+    suspend fun getCurrentMembershipReferral(token: String): EvoCurrentMembershipReferral {
+        val response: HttpResponse = defaultClient.get("v1/current_referral") {
+            header(HttpHeaders.Authorization, token)
+        }
+
+        return response.body<EvoCurrentMembershipReferral>()
+    }
 }
