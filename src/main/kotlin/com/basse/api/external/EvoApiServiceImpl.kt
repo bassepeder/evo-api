@@ -46,7 +46,7 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
         return CurrentMembershipReferral(
             id = result.id,
             name = result.name,
-            discountMountsCount = result.discountMountsCount,
+            discountMonthsCount = result.discountMonthsCount,
             discountPercentage = result.discountPercentage,
             includedPtHoursAmount = result.includedPtHoursAmount,
             description = result.description,
