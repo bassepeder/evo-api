@@ -29,6 +29,14 @@ fun Route.membershipRoutes(service: EvoApiService) {
             )
         }
 
+        get("current-referral") {
+            val token = call.request.headers[HttpHeaders.Authorization]!!
+
+            val result = service.getCurrentMembershipReferral(token)
+
+            call.respond(HttpStatusCode.OK, result)
+        }
+
         put("update-location") {
             val token = call.request.headers[HttpHeaders.Authorization]!!
             val request = call.receive<UpdatePrimaryLocationRequest>()
