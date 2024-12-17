@@ -3,10 +3,7 @@ package com.basse.api.external
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
 import com.basse.api.requests.UpdatePrimaryLocationRequest
 import com.basse.api.requests.UpdateProfileRequest
-import com.basse.api.responses.Invoice
-import com.basse.api.responses.MemberWorkouts
-import com.basse.api.responses.MembershipDetailsResponse
-import com.basse.api.responses.NextInvoice
+import com.basse.api.responses.*
 import com.basse.api.responses.location.Location
 import com.basse.api.responses.location.LocationStatistics
 import com.basse.api.responses.location.LocationStatisticsTimeline
@@ -19,8 +16,9 @@ interface EvoApiService {
     ): Result<EvoAuthenticateUserResponse>
 
     suspend fun getMembershipDetails(token: String): Result<MembershipDetailsResponse>
-    suspend fun updatePrimaryLocation(token: String, request: UpdatePrimaryLocationRequest): Boolean
+    suspend fun getCurrentMembershipReferral(token: String): CurrentMembershipReferral
 
+    suspend fun updatePrimaryLocation(token: String, request: UpdatePrimaryLocationRequest): Boolean
     suspend fun updateProfile(token: String, request: UpdateProfileRequest): Boolean
 
     suspend fun getInvoices(token: String): List<Invoice>
