@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class CurrentMembershipReferral(
     val id: String,
     val name: String,
-    val discountMountsCount: Int,
+    val discountMonthsCount: Int,
     val discountPercentage: Int,
     val includedPtHoursAmount: Int,
     val description: String,
