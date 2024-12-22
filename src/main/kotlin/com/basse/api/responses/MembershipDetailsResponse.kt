@@ -50,6 +50,8 @@ data class MembershipDetailsResponse(
                     id = details.currentPaymentMethod.id,
                     brand = details.currentPaymentMethod.brand,
                     details = details.currentPaymentMethod.details,
+                    expiryYear = details.currentPaymentMethod.expiryYear,
+                    expiryMonth = details.currentPaymentMethod.expiryMonth,
                 )
             )
         }
@@ -73,6 +75,8 @@ data class CurrentPaymentMethod(
     val id: String,
     val brand: String,
     val details: String,
+    val expiryYear: Int,
+    val expiryMonth: Int,
 )
 
 @Serializable
