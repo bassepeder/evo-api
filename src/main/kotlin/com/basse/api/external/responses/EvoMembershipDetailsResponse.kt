@@ -32,6 +32,8 @@ data class EvoCurrentPaymentMethod(
     @SerialName("id") val id: String,
     @SerialName("brand") val brand: String,
     @SerialName("details") val details: String,
+    @SerialName("expiry_year") val expiryYear: Int,
+    @SerialName("expiry_month") val expiryMonth: Int,
 )
 
 @Serializable
