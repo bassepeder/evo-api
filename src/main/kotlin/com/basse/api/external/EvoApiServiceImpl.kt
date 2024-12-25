@@ -3,8 +3,10 @@ package com.basse.api.external
 import com.basse.Constants
 import com.basse.api.external.EvoApiClient.UnauthorizedException
 import com.basse.api.external.EvoApiClient.UserNotFoundException
+import com.basse.api.external.requests.EvoUpdateProfileGdprConsentRequest
 import com.basse.api.external.responses.EvoAuthenticateUserResponse
 import com.basse.api.requests.UpdatePrimaryLocationRequest
+import com.basse.api.requests.UpdateProfileGdprConsentRequest
 import com.basse.api.requests.UpdateProfileRequest
 import com.basse.api.responses.*
 import com.basse.api.responses.location.Location
@@ -27,7 +29,7 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
     override suspend fun getMembershipDetails(token: String): Result<MembershipDetailsResponse> {
         val result = apiClient.getMembershipDetails(token)
 
-        return result.fold(
+        result.fold(
             onSuccess = { details ->
                 return Result.success(MembershipDetailsResponse.mapFromEvoResponse(details))
             },
@@ -63,8 +65,11 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
     override suspend fun updateProfile(token: String, request: UpdateProfileRequest): Boolean =
         apiClient.updateProfile(token, request.toExternalRequest())
 
+    override suspend fun updateProfileGdprConsent(token: String, request: UpdateProfileGdprConsentRequest) =
+        apiClient.updateProfileGdprConsent(token, EvoUpdateProfileGdprConsentRequest(request.optIn))
+
     override suspend fun getInvoices(token: String): List<Invoice> {
-        var invoices = apiClient.getInvoices(token)
+        val invoices = apiClient.getInvoices(token)
 
         return invoices.map { invoice -> Invoice(
             id = invoice.id,

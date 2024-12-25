@@ -3,6 +3,7 @@ package com.basse.api.routes
 import com.basse.api.external.EvoApiClient.UnauthorizedException
 import com.basse.api.external.EvoApiService
 import com.basse.api.requests.UpdatePrimaryLocationRequest
+import com.basse.api.requests.UpdateProfileGdprConsentRequest
 import com.basse.api.requests.UpdateProfileRequest
 import io.ktor.http.*
 import io.ktor.server.request.*
@@ -59,6 +60,18 @@ fun Route.membershipRoutes(service: EvoApiService) {
             }
 
             val ok = service.updateProfile(token, request)
+
+            if (ok)
+                call.respond(HttpStatusCode.OK)
+            else
+                call.respond(HttpStatusCode.InternalServerError)
+        }
+
+        put("profile/gdpr") {
+            val token = call.request.headers[HttpHeaders.Authorization]!!
+            val request = call.receive<UpdateProfileGdprConsentRequest>()
+
+            val ok = service.updateProfileGdprConsent(token, request)
 
             if (ok)
                 call.respond(HttpStatusCode.OK)
