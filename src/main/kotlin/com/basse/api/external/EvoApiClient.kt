@@ -3,6 +3,7 @@ package com.basse.api.external
 import com.basse.Constants
 import com.basse.api.external.requests.EvoAuthenticateUserRequest
 import com.basse.api.external.requests.EvoUpdatePrimaryProfileLocationRequest
+import com.basse.api.external.requests.EvoUpdateProfileGdprConsentRequest
 import com.basse.api.external.requests.EvoUpdateProfileRequest
 import com.basse.api.external.responses.*
 import com.basse.api.external.responses.invoices.EvoInvoicesResponse
@@ -202,5 +203,14 @@ class EvoApiClient  {
         }
 
         return response.body<EvoCurrentMembershipReferral>()
+    }
+
+    suspend fun updateProfileGdprConsent(token: String, request: EvoUpdateProfileGdprConsentRequest): Boolean {
+        val response = defaultClient.put("v1/membership/gdpr") {
+            header(HttpHeaders.Authorization, token)
+            setBody(request)
+        }
+
+        return response.status.isSuccess()
     }
 }
