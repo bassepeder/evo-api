@@ -75,7 +75,7 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
             id = invoice.id,
             invoiceNumber = invoice.invoiceNumber,
             date = invoice.invoiceDate,
-            amount = invoice.amount,
+            amount = invoice.amount / 100, // EVO returns amounts in cents
             currency = invoice.currency,
             status = invoice.status,
             from = invoice.period.from,
@@ -88,7 +88,7 @@ class EvoApiServiceImpl(private val apiClient: EvoApiClient): EvoApiService {
 
         return NextInvoice(
             date = invoice.invoiceDate,
-            amount = invoice.amount,
+            amount = invoice.amount / 100, // EVO returns amounts in cents
         )
     }
 
