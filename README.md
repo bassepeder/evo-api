@@ -1,1 +1,2 @@
-HTTP API serving requests for the [EVO mobile app I made](https://github.com/bassepeder/evo-app).
+## What this is
+Kotlin/Ktor HTTP API for my unofficial [EVO mobile app](https://github.com/bassepeder/evo-app). Built as a personal learning project and not affiliated with or endorsed by EVO Fitness.
